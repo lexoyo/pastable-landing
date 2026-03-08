@@ -14,6 +14,8 @@
 <meta name="twitter:title" content="Pastable — Save and reuse UI components across design tools">
 <meta name="twitter:description" content="Copy components from Figma, Webflow, or any website. Save them in your library. Paste them back anywhere.">
 <meta name="twitter:image" content="https://pastable.app/screenshot.jpg">
+<link rel="canonical" href="https://pastable.app">
+<link rel="preload" as="image" href="screenshot.jpg">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -85,14 +87,14 @@ footer a{color:var(--muted);text-decoration:underline}
     <h1>Your UI components,<br><span>always within reach</span></h1>
     <p class="sub">Copy a component from Figma, Webflow, or any website. Save it in your library. Paste it back anywhere &mdash; as a real, editable component.</p>
     <form class="form-wrap" id="signup-form" action="https://formspree.io/f/mbdzllqd" method="POST">
-      <input type="email" name="email" placeholder="you@email.com" required>
+      <input type="email" name="email" placeholder="you@email.com" required aria-label="Your email address">
       <button type="submit">Get early access</button>
     </form>
-    <div class="form-msg" id="form-msg"></div>
+    <div class="form-msg" id="form-msg" aria-live="polite"></div>
   </section>
 
   <div class="screenshot">
-    <img src="screenshot.jpg" alt="Pastable app showing a library of UI components from Figma and Webflow" width="1400" height="788" loading="eager">
+    <img src="screenshot.jpg" alt="Pastable app showing a library of UI components from Figma and Webflow" width="1400" height="933" loading="eager">
   </div>
 
   <section class="steps">
@@ -145,11 +147,12 @@ footer a{color:var(--muted);text-decoration:underline}
   </section>
 
   <section class="cta-bottom">
-    <p>Be the first to try Pastable.</p>
+    <p>Join the waitlist. Get early access when we launch.</p>
     <form class="form-wrap" action="https://formspree.io/f/mbdzllqd" method="POST">
-      <input type="email" name="email" placeholder="you@email.com" required>
+      <input type="email" name="email" placeholder="you@email.com" required aria-label="Your email address">
       <button type="submit">Get early access</button>
     </form>
+    <div class="form-msg" aria-live="polite"></div>
   </section>
 </div>
 
@@ -166,7 +169,7 @@ document.querySelectorAll('form').forEach(function(form) {
     var data = new FormData(form);
     var msg = form.nextElementSibling;
     if (!msg || !msg.classList.contains('form-msg')) {
-      msg = document.getElementById('form-msg');
+      msg = form.parentElement.querySelector('.form-msg') || document.getElementById('form-msg');
     }
     fetch(form.action, {
       method: 'POST',
@@ -188,6 +191,6 @@ document.querySelectorAll('form').forEach(function(form) {
   });
 });
 </script>
-<script data-goatcounter="https://pastable.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script data-goatcounter="https://pastable.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
