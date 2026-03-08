@@ -51,7 +51,17 @@ section h2{text-align:center;font-size:1.5rem;font-weight:600;margin-bottom:40px
 
 /* Steps */
 .step-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-@media(max-width:600px){.step-grid{grid-template-columns:1fr}}
+@media(max-width:600px){
+.hero{padding:60px 0 24px}
+.hero h1{font-size:1.8rem}
+.hero .sub{font-size:1rem;margin-bottom:32px}
+.form-wrap{flex-direction:column}
+.form-wrap button{width:100%}
+.step-grid{grid-template-columns:1fr}
+.tool-list{gap:20px}
+section{padding:40px 0}
+.cta-bottom{padding:32px 0 60px}
+}
 .step{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px 24px;text-align:center}
 .step-num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:.85rem;margin-bottom:16px}
 .step h3{font-size:1rem;margin-bottom:8px}
