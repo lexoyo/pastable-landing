@@ -88,6 +88,8 @@ footer a{color:var(--muted);text-decoration:underline}
     <p class="sub">Copy a component from Figma, Webflow, or any website. Save it in your library. Paste it back anywhere &mdash; as a real, editable component.</p>
     <form class="form-wrap" id="signup-form" action="https://formspree.io/f/mbdzllqd" method="POST">
       <input type="email" name="email" placeholder="you@email.com" required aria-label="Your email address">
+      <input type="hidden" name="_source" value="">
+      <input type="hidden" name="_referrer" value="">
       <button type="submit">Get early access</button>
     </form>
     <div class="form-msg" id="form-msg" aria-live="polite"></div>
@@ -150,6 +152,8 @@ footer a{color:var(--muted);text-decoration:underline}
     <p>Join the waitlist. Get early access when we launch.</p>
     <form class="form-wrap" action="https://formspree.io/f/mbdzllqd" method="POST">
       <input type="email" name="email" placeholder="you@email.com" required aria-label="Your email address">
+      <input type="hidden" name="_source" value="">
+      <input type="hidden" name="_referrer" value="">
       <button type="submit">Get early access</button>
     </form>
     <div class="form-msg" aria-live="polite"></div>
@@ -162,6 +166,15 @@ footer a{color:var(--muted);text-decoration:underline}
   </div>
 </footer>
 
+<script>
+// Populate hidden tracking fields
+(function() {
+  var src = new URLSearchParams(window.location.search).get('utm_source') || '';
+  var ref = document.referrer || '';
+  document.querySelectorAll('input[name="_source"]').forEach(function(el) { el.value = src; });
+  document.querySelectorAll('input[name="_referrer"]').forEach(function(el) { el.value = ref; });
+})();
+</script>
 <script>
 document.querySelectorAll('form').forEach(function(form) {
   form.addEventListener('submit', function(e) {
