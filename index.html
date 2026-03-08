@@ -7,8 +7,13 @@
 <meta name="description" content="Copy components from Figma, Webflow, or any website. Save them in your personal library. Paste them back anywhere. A desktop app for designers and no-code builders.">
 <meta property="og:title" content="Pastable — Save and reuse UI components across design tools">
 <meta property="og:description" content="Copy components from Figma, Webflow, or any website. Save them in your library. Paste them back anywhere.">
+<meta property="og:image" content="https://pastable.app/screenshot.jpg">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pastable.app">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pastable — Save and reuse UI components across design tools">
+<meta name="twitter:description" content="Copy components from Figma, Webflow, or any website. Save them in your library. Paste them back anywhere.">
+<meta name="twitter:image" content="https://pastable.app/screenshot.jpg">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -18,7 +23,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .container{max-width:720px;margin:0 auto;padding:0 24px}
 
 /* Hero */
-.hero{padding:100px 0 72px;text-align:center}
+.hero{padding:100px 0 32px;text-align:center}
 .badge{display:inline-block;padding:6px 14px;border:1px solid var(--border);border-radius:20px;font-size:.8rem;color:var(--muted);margin-bottom:28px;letter-spacing:.02em}
 .hero h1{font-size:clamp(2.2rem,5.5vw,3.4rem);font-weight:700;letter-spacing:-.03em;margin-bottom:20px;line-height:1.12}
 .hero h1 span{background:linear-gradient(135deg,var(--accent),var(--accent2),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -33,6 +38,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .form-wrap button:hover{background:var(--accent2)}
 .form-wrap button:active{transform:scale(.97)}
 .form-msg{text-align:center;margin-top:14px;font-size:.9rem;color:var(--muted);min-height:1.4em}
+
+/* Screenshot */
+.screenshot{padding:48px 0 0;text-align:center}
+.screenshot img{width:100%;max-width:680px;border-radius:12px;border:1px solid var(--border);box-shadow:0 20px 60px rgba(99,102,241,.15),0 4px 20px rgba(0,0,0,.4)}
 
 /* Sections */
 section{padding:64px 0}
@@ -72,15 +81,19 @@ footer a{color:var(--muted);text-decoration:underline}
 
 <div class="container">
   <section class="hero">
-    <div class="badge">Desktop app for Linux, macOS &amp; Windows</div>
+    <div class="badge">Early access — Desktop app for Linux, macOS &amp; Windows</div>
     <h1>Your UI components,<br><span>always within reach</span></h1>
-    <p class="sub">Copy a component from Figma, Webflow, or any website. Save it in your library. Paste it back anywhere.</p>
+    <p class="sub">Copy a component from Figma, Webflow, or any website. Save it in your library. Paste it back anywhere &mdash; as a real, editable component.</p>
     <form class="form-wrap" id="signup-form" action="https://formspree.io/f/mbdzllqd" method="POST">
       <input type="email" name="email" placeholder="you@email.com" required>
       <button type="submit">Get early access</button>
     </form>
     <div class="form-msg" id="form-msg"></div>
   </section>
+
+  <div class="screenshot">
+    <img src="screenshot.jpg" alt="Pastable app showing a library of UI components from Figma and Webflow" width="1400" height="788" loading="eager">
+  </div>
 
   <section class="steps">
     <h2>How it works</h2>
