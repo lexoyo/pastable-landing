@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why can't you copy components between Webflow projects? — Pastable</title>
+<meta name="description" content="Webflow copy-paste breaks across workspaces. Figma components don't transfer to Webflow. Here's why — and how Pastable fixes it.">
+<meta property="og:title" content="Why can't you copy components between Webflow projects?">
+<meta property="og:description" content="Webflow copy-paste breaks across workspaces. Figma components don't transfer to Webflow. Here's why — and how Pastable fixes it.">
+<meta property="og:image" content="https://pastable.app/og-image.jpg">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pastable.app/why">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://pastable.app/why">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can you copy Webflow components between different workspaces?","acceptedAnswer":{"@type":"Answer","text":"Technically yes, but components lose their component status, code components are removed entirely, class names get renamed with numbered suffixes, and color variables don't transfer. Simple sections work, but anything component-based breaks down fast."}},{"@type":"Question","name":"Why don't Figma components transfer to Webflow?","acceptedAnswer":{"@type":"Answer","text":"Figma and Webflow use completely different data formats. Figma stores components in a proprietary binary format (Kiwi), while Webflow uses a custom JSON encoding. There's no native bridge between them, so designers end up rebuilding from scratch."}},{"@type":"Question","name":"What about Figma-to-Webflow plugins?","acceptedAnswer":{"@type":"Answer","text":"Existing plugins handle basic layouts but can't transfer variants, complex interactions, or deeply nested component structures. If you edit in Webflow after syncing, the next sync often creates duplicate components instead of updating. It's a one-way street with manual cleanup."}},{"@type":"Question","name":"Does Pastable preserve component interactions?","acceptedAnswer":{"@type":"Answer","text":"For Webflow-to-Webflow transfers, yes — Pastable saves the original clipboard data, so interactions, classes, and component structure stay intact. For cross-tool transfers (Figma to Webflow), the visual structure and styles transfer, but tool-specific interactions need to be re-applied."}},{"@type":"Question","name":"Is Pastable a browser extension or plugin?","acceptedAnswer":{"@type":"Answer","text":"Neither. Pastable is a standalone desktop app that reads the native clipboard. No plugins, no extensions, no browser permissions. Just copy in your design tool, switch to Pastable, save it. Copy from Pastable, switch back to your project, paste."}}]}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#09090b;--fg:#f4f4f5;--muted:#71717a;--accent:#6366f1;--accent2:#818cf8;--card:#18181b;--border:#27272a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--fg);line-height:1.7;-webkit-font-smoothing:antialiased}
+.container{max-width:680px;margin:0 auto;padding:0 24px}
+header{padding:32px 0;border-bottom:1px solid var(--border)}
+header a{color:var(--fg);text-decoration:none;display:inline-flex;align-items:center;gap:10px;font-weight:600}
+header img{width:28px;height:28px}
+article{padding:64px 0}
+h1{font-size:clamp(1.8rem,4vw,2.4rem);font-weight:700;letter-spacing:-.02em;line-height:1.2;margin-bottom:12px}
+.subtitle{font-size:1.1rem;color:var(--muted);margin-bottom:48px}
+h2{font-size:1.3rem;font-weight:600;margin:48px 0 16px;letter-spacing:-.01em}
+h3{font-size:1.05rem;font-weight:600;margin:32px 0 12px}
+p{margin-bottom:16px;color:#d4d4d8}
+strong{color:var(--fg)}
+a{color:var(--accent2)}
+
+/* Comparison table */
+.compare{width:100%;border-collapse:collapse;margin:24px 0 32px;font-size:.9rem}
+.compare th{text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);color:var(--fg);font-weight:600}
+.compare td{padding:10px 12px;border-bottom:1px solid var(--border);color:#d4d4d8}
+.compare tr:last-child td{border-bottom:none}
+.compare .yes{color:#22c55e}
+.compare .no{color:#ef4444}
+.compare .partial{color:#eab308}
+.compare tr:last-child{background:rgba(99,102,241,.08)}
+
+/* FAQ */
+.faq{margin:48px 0}
+.faq details{border:1px solid var(--border);border-radius:10px;margin-bottom:12px;background:var(--card)}
+.faq summary{padding:16px 20px;cursor:pointer;font-weight:600;font-size:.95rem;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"+ ";color:var(--accent);font-weight:700}
+.faq details[open] summary::before{content:"− "}
+.faq .answer{padding:0 20px 16px;color:#d4d4d8;font-size:.92rem;line-height:1.6}
+
+/* CTA */
+.cta{text-align:center;padding:48px 0;border-top:1px solid var(--border);margin-top:48px}
+.cta p{color:var(--muted);margin-bottom:20px}
+.form-wrap{display:flex;gap:10px;max-width:440px;margin:0 auto}
+.form-wrap input[type=email]{flex:1;padding:14px 18px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--fg);font-size:1rem;outline:none;transition:border-color .2s}
+.form-wrap input[type=email]:focus{border-color:var(--accent)}
+.form-wrap input[type=email]::placeholder{color:var(--muted)}
+.form-wrap button{padding:14px 28px;border:none;border-radius:10px;background:var(--accent);color:#fff;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s,transform .1s;white-space:nowrap}
+.form-wrap button:hover{background:var(--accent2)}
+.form-wrap button:active{transform:scale(.97)}
+.form-msg{text-align:center;margin-top:14px;font-size:.9rem;color:var(--muted);min-height:1.4em}
+
+footer{border-top:1px solid var(--border);padding:32px 0;text-align:center;color:var(--muted);font-size:.8rem}
+footer a{color:var(--muted);text-decoration:underline}
+
+@media(max-width:600px){
+article{padding:40px 0}
+h1{font-size:1.6rem}
+.form-wrap{flex-direction:column}
+.form-wrap button{width:100%}
+.compare{font-size:.8rem}
+.compare th,.compare td{padding:8px 6px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <a href="/"><img src="icon.png" alt="Pastable"> Pastable</a>
+  </div>
+</header>
+
+<div class="container">
+  <article>
+    <h1>Why can't you copy components between Webflow projects?</h1>
+    <p class="subtitle">The cross-tool component gap that wastes hours every week — and what you can do about it.</p>
+
+    <h2>The problem everyone hits</h2>
+    <p>You built a nav bar in Webflow. It works perfectly. Now you need it in a different project — maybe a different workspace, maybe a client site. You copy it, paste it, and... it's broken.</p>
+    <p>Here's what actually happens when you paste Webflow components across workspaces:</p>
+    <ul style="margin:0 0 24px 24px;color:#d4d4d8">
+      <li style="margin-bottom:8px"><strong>Components lose their component status.</strong> What was a reusable component becomes a static block of HTML.</li>
+      <li style="margin-bottom:8px"><strong>Code components are removed entirely.</strong> Any custom code you added is stripped out.</li>
+      <li style="margin-bottom:8px"><strong>Class names get renamed.</strong> Webflow appends numbered suffixes to avoid conflicts, breaking any external CSS that references those classes.</li>
+      <li style="margin-bottom:8px"><strong>Color variables don't transfer.</strong> Your carefully set up design tokens stay behind.</li>
+    </ul>
+    <p>For a simple section with basic styling, it works well enough. For anything component-based — a design system, a reusable card, a nav with interactions — it falls apart.</p>
+
+    <h2>The Figma-to-Webflow gap is worse</h2>
+    <p>If you design in Figma and build in Webflow, you already know: there's no native way to move a component from one tool to the other.</p>
+    <p>Figma stores components in a proprietary binary format called Kiwi. Webflow uses a completely different custom JSON encoding called XscpData. They're not even close to compatible. So designers end up doing what they've always done — looking at Figma on one screen and rebuilding everything from scratch in Webflow on the other.</p>
+    <p>Plugins exist, but they hit real limits:</p>
+    <ul style="margin:0 0 24px 24px;color:#d4d4d8">
+      <li style="margin-bottom:8px">No support for Figma variants or component sets</li>
+      <li style="margin-bottom:8px">Complex interactions don't transfer</li>
+      <li style="margin-bottom:8px">Deeply nested structures break or flatten</li>
+      <li style="margin-bottom:8px">Syncing creates duplicates instead of updating existing components</li>
+    </ul>
+    <p>Teams managing a shared design system across both tools describe it as a one-way street with hours of manual cleanup.</p>
+
+    <h2>The workarounds people actually use</h2>
+    <p>When I asked designers and Webflow builders how they handle this, the answers were depressingly similar:</p>
+    <ul style="margin:0 0 24px 24px;color:#d4d4d8">
+      <li style="margin-bottom:8px"><strong>Screenshots.</strong> Take a screenshot of the component, open it in the new project, rebuild by eye.</li>
+      <li style="margin-bottom:8px"><strong>Manual rebuild.</strong> Start from scratch every time. Accepted as "just how it is."</li>
+      <li style="margin-bottom:8px"><strong>Webflow Shared Libraries.</strong> Works, but only within a single workspace. Different workspace? Different client? Out of luck.</li>
+      <li style="margin-bottom:8px"><strong>Template sites.</strong> Keep a "master" project with all your components, clonesite into new projects. Messy and hard to maintain.</li>
+    </ul>
+    <p>None of these are real solutions. They're coping mechanisms.</p>
+
+    <h2>How the tools compare</h2>
+    <table class="compare">
+      <thead>
+        <tr><th>Method</th><th>Cross-workspace</th><th>Cross-tool</th><th>Keeps structure</th><th>Effort</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Webflow Shared Libraries</td><td class="no">No</td><td class="no">No</td><td class="yes">Yes</td><td>Low</td></tr>
+        <tr><td>Screenshots + rebuild</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">No</td><td>Very high</td></tr>
+        <tr><td>Figma-to-Webflow plugins</td><td class="partial">Partial</td><td class="partial">Partial</td><td class="partial">Partial</td><td>Medium</td></tr>
+        <tr><td>Template / clonesite</td><td class="yes">Yes</td><td class="no">No</td><td class="yes">Yes</td><td>High</td></tr>
+        <tr><td><strong>Pastable</strong></td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Low</td></tr>
+      </tbody>
+    </table>
+
+    <h2>What Pastable does differently</h2>
+    <p>Pastable is a desktop app that sits between your design tools. It reads the native clipboard format — the actual data that Figma and Webflow put on your clipboard when you copy — and saves it in a portable format you can paste anywhere.</p>
+    <p>The workflow is three steps:</p>
+    <ol style="margin:0 0 24px 24px;color:#d4d4d8">
+      <li style="margin-bottom:8px"><strong>Copy</strong> your component in Figma or Webflow (just Ctrl+C, nothing special)</li>
+      <li style="margin-bottom:8px"><strong>Save</strong> it in Pastable — format is auto-detected, preview is generated</li>
+      <li style="margin-bottom:8px"><strong>Paste</strong> it into any project, any workspace, any tool</li>
+    </ol>
+    <p>No plugins. No browser extensions. No account to create. It reads the clipboard directly.</p>
+    <p>For same-tool transfers (Webflow to Webflow), Pastable preserves the original clipboard data — interactions, classes, component structure stay intact. For cross-tool transfers, the visual structure and styles transfer, with tool-specific interactions to re-apply.</p>
+
+    <h2>Who this is for</h2>
+    <p><strong>Freelancers and solo designers</strong> who work across multiple client projects and keep rebuilding the same sections. <strong>Webflow agencies</strong> that want a personal component library across all their workspaces. <strong>Design system maintainers</strong> who need components to travel between Figma and production tools.</p>
+    <p>If all your work lives in a single Webflow workspace, Shared Libraries probably does what you need. Pastable is for everyone else.</p>
+
+    <div class="faq">
+      <h2>Frequently asked questions</h2>
+
+      <details>
+        <summary>Can you copy Webflow components between different workspaces?</summary>
+        <div class="answer">Technically yes, but components lose their component status, code components are removed entirely, class names get renamed with numbered suffixes, and color variables don't transfer. Simple sections work, but anything component-based breaks down fast.</div>
+      </details>
+
+      <details>
+        <summary>Why don't Figma components transfer to Webflow?</summary>
+        <div class="answer">Figma and Webflow use completely different data formats. Figma stores components in a proprietary binary format (Kiwi), while Webflow uses a custom JSON encoding. There's no native bridge between them, so designers end up rebuilding from scratch.</div>
+      </details>
+
+      <details>
+        <summary>What about Figma-to-Webflow plugins?</summary>
+        <div class="answer">Existing plugins handle basic layouts but can't transfer variants, complex interactions, or deeply nested component structures. If you edit in Webflow after syncing, the next sync often creates duplicate components instead of updating. It's a one-way street with manual cleanup.</div>
+      </details>
+
+      <details>
+        <summary>Does Pastable preserve component interactions?</summary>
+        <div class="answer">For Webflow-to-Webflow transfers, yes — Pastable saves the original clipboard data, so interactions, classes, and component structure stay intact. For cross-tool transfers (Figma to Webflow), the visual structure and styles transfer, but tool-specific interactions need to be re-applied.</div>
+      </details>
+
+      <details>
+        <summary>Is Pastable a browser extension or plugin?</summary>
+        <div class="answer">Neither. Pastable is a standalone desktop app that reads the native clipboard. No plugins, no extensions, no browser permissions. Just copy in your design tool, switch to Pastable, save it. Copy from Pastable, switch back to your project, paste.</div>
+      </details>
+
+      <details>
+        <summary>What platforms does Pastable run on?</summary>
+        <div class="answer">Windows, macOS, and Linux. It's built with Tauri (Rust + React), so it's lightweight and runs natively on all three platforms.</div>
+      </details>
+    </div>
+
+    <div class="cta">
+      <p>Pastable is in early access. Free for early adopters.</p>
+      <form class="form-wrap" action="https://formspree.io/f/mbdzllqd" method="POST">
+        <input type="email" name="email" placeholder="you@email.com" required aria-label="Your email address">
+        <input type="hidden" name="_source" value="">
+        <input type="hidden" name="_referrer" value="">
+        <input type="hidden" name="_page" value="why">
+        <button type="submit">Get early access</button>
+      </form>
+      <div class="form-msg" aria-live="polite"></div>
+    </div>
+  </article>
+</div>
+
+<footer>
+  <div class="container">
+    <a href="/">Pastable</a> &copy; 2026
+  </div>
+</footer>
+
+<script>
+(function() {
+  var src = new URLSearchParams(window.location.search).get('utm_source') || '';
+  var ref = document.referrer || '';
+  document.querySelectorAll('input[name="_source"]').forEach(function(el) { el.value = src; });
+  document.querySelectorAll('input[name="_referrer"]').forEach(function(el) { el.value = ref; });
+})();
+</script>
+<script>
+document.querySelectorAll('form').forEach(function(form) {
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var data = new FormData(form);
+    var msg = form.nextElementSibling;
+    fetch(form.action, {
+      method: 'POST',
+      body: data,
+      headers: {'Accept': 'application/json'}
+    }).then(function(r) {
+      if (r.ok) {
+        msg.textContent = "You're on the list! We'll be in touch.";
+        msg.style.color = '#6366f1';
+        form.reset();
+      } else {
+        msg.textContent = 'Something went wrong. Try again?';
+        msg.style.color = '#ef4444';
+      }
+    }).catch(function() {
+      msg.textContent = 'Something went wrong. Try again?';
+      msg.style.color = '#ef4444';
+    });
+  });
+});
+</script>
+<script data-goatcounter="https://pastable.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
